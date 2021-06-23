@@ -4,11 +4,30 @@ class Configure_FTP():
         pass
 
     def backup(self):
+
         if not os.path.exists('/backup'):
-            os.mkdir('/backup')
-            os.system('cp -rf /etc/vsftpd/vsftpd.conf /backup')
+            if not os.path.exists('/etc/vsftpd/vsftpd.conf'):
+                info = "系统未检测到vsftpd服务，请安装！"
+                return info
+
+            # if os.path.exists('/etc/vsftpd/vsftpd.conf'):
+            #     os.mkdir('/backup')
+            #     os.system('cp -rf /etc/vsftpd/vsftpd.conf /backup')
+            else:
+                os.mkdir('/backup')
+                os.system('cp -rf /etc/vsftpd/vsftpd.conf /backup')
+
         else:
-            os.system('cp -rf /etc/vsftpd/vsftpd.conf /backup')
+            if not os.path.exists('/etc/vsftpd/vsftpd.conf'):
+                info = "系统未检测到vsftpd服务，请安装！"
+                return info
+
+            # if os.path.exists('/etc/vsftpd/vsftpd.conf'):
+            #     os.system('cp -rf /etc/vsftpd/vsftpd.conf /backup')
+            else:
+                os.system('cp -rf /etc/vsftpd/vsftpd.conf /backup')
+
+
 
     def config_anonymous_users(self):
         file_path = r'/etc/vsftpd/vsftpd.conf'
