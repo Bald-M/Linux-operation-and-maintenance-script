@@ -41,7 +41,7 @@ def show_services(select):
 
 
 while True:
-    print("(0)查看服务状态\n(1)开启服务\n(2)关闭服务\n(3)重启服务\n(4)查看开启的服务\n(5)查看关闭的服务\n(6)安装服务\n(7)卸载服务\n(8)配置本地yum源\n(9)配置DHCP\n(10)配置FTP\n(20)开启SELinux\n(21)关闭SELinux\n(100)退出\n")
+    print("(0)查看服务状态\n(1)开启服务\n(2)关闭服务\n(3)重启服务\n(4)查看开启的服务\n(5)查看关闭的服务\n(6)安装服务或软件\n(7)卸载服务或软件\n(8)配置本地yum源\n(9)配置DHCP\n(10)配置FTP\n(20)开启SELinux\n(21)关闭SELinux\n(100)退出\n")
     try:
         select = int(input("请选择服务选项:"))
         # 查看服务状态
@@ -76,14 +76,22 @@ while True:
         #配置DHCP
         elif select == 9:
             a = Configure_DHCP()
-            a.backup()
-            a.build_main_file()
+            if a.backup() == "系统未检测到dhcpd服务，请安装！":
+                print(a.backup())
+                continue
+            else:
+                a.backup()
+                a.build_main_file()
 
         #配置FTP
         elif select == 10:
             a = Configure_FTP()
-            a.backup()
-            a.select_mode()
+            if a.backup() == "系统未检测到vsftpd服务，请安装！":
+                print(a.backup())
+                continue
+            else:
+                a.backup()
+                a.select_mode()
 
         #开启SELinux
         elif select == 20:
