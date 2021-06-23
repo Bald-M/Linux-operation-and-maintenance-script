@@ -4,11 +4,28 @@ class Configure_DHCP():
     def __init__(self):
         pass
     def backup(self):
+
         if not os.path.exists('/backup'):
-            os.mkdir('/backup')
-            os.system('cp -rf /etc/dhcp/dhcpd.conf /backup')
+            if not os.path.exists('/etc/dhcp/dhcpd.conf'):
+                info = "系统未检测到dhcpd服务，请安装！"
+                return info
+
+            # if os.path.exists('/etc/dhcp/dhcpd.conf'):
+            #     os.mkdir('/backup')
+            #     os.system('cp -rf /etc/dhcp/dhcpd.conf /backup')
+            else:
+                os.mkdir('/backup')
+                os.system('cp -rf /etc/dhcp/dhcpd.conf /backup')
+
         else:
-            os.system('cp -rf /etc/dhcp/dhcpd.conf /backup')
+            if not os.path.exists('/etc/dhcp/dhcpd.conf'):
+                info = "系统未检测到dhcpd服务，请安装！"
+                return info
+            # if os.path.exists('/etc/dhcp/dhcpd.conf'):
+            #     os.system('cp -rf /etc/dhcp/dhcpd.conf /backup')
+            else:
+                os.system('cp -rf /etc/dhcp/dhcpd.conf /backup')
+
 
     def build_main_file(self):
         file_path = r"/etc/dhcp/dhcpd.conf"
