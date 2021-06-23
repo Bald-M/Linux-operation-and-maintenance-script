@@ -15,7 +15,7 @@ class Configure_DHCP():
             #     os.system('cp -rf /etc/dhcp/dhcpd.conf /backup')
             else:
                 os.mkdir('/backup')
-                os.system('cp -rf /etc/dhcp/dhcpd.conf /backup')
+                os.system('cp -rf /usr/share/doc/dhcp*/dhcpd.conf.example /backup')
 
         else:
             if not os.path.exists('/etc/dhcp/dhcpd.conf'):
@@ -24,7 +24,7 @@ class Configure_DHCP():
             # if os.path.exists('/etc/dhcp/dhcpd.conf'):
             #     os.system('cp -rf /etc/dhcp/dhcpd.conf /backup')
             else:
-                os.system('cp -rf /etc/dhcp/dhcpd.conf /backup')
+                os.system('cp -rf /usr/share/doc/dhcp*/dhcpd.conf.example /backup')
 
 
     def build_main_file(self):
