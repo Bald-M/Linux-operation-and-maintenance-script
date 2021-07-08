@@ -10,7 +10,9 @@
 + Python version 3 or above.
 
 >[root@localhost ~]# unzip service-management-and-control-main.zip
+
 >[root@localhost ~]# cd service-management-and-control-main/
+
 >[root@localhost service-management-and-control-main]# python3 RUN.py
 
 
