@@ -1,7 +1,7 @@
 # -*- coding:UTF-8 -*-
 # 作者：张子涵
 # 开始时间：2021/6/16
-# https://github.com/Bald-M/Linux-operation-and-maintenance-script
+# https://github.com/Bald-M/service-management-and-control/blob/main/RUN.py
 
 import os
 from config_local_yum import local_yum
