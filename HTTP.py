@@ -1,6 +1,6 @@
 # -*- coding:UTF-8 -*-
 # 作者：张子涵
-# https://github.com/Bald-M/Linux-operation-and-maintenance-script
+
 
 import os,re
 
