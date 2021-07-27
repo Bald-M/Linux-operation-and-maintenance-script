@@ -1,13 +1,14 @@
 # -*- coding:UTF-8 -*-
 # 作者：张子涵
 # 开始时间：2021/6/16
-# https://github.com/Bald-M/service-management-and-control/blob/main/RUN.py
+# https://github.com/Bald-M/service-management-and-control
 
 import os
-from config_local_yum import local_yum
+from config_yum import local_yum,ali_yum
 from DHCP import *
 from FTP import *
 from HTTP import *
+from SAMBA import *
 
 #函数 开启服务
 def start_service(service):
@@ -41,78 +42,83 @@ def stop_SELinux():
 
 #函数 查看已经开启的服务
 def show_services(select):
-    if select == 4:
+    if select == 5:
         os.system("sudo systemctl list-unit-files | grep enabled | awk '{print $1}'")
         return show_services
-    elif select == 5:
+    elif select == 6:
         os.system("sudo systemctl list-unit-files | grep disabled | awk '{print $1}'")
         return show_services
 
 #函数 打印选项列表
 def show_select_option():
     print('''
-(0)查看服务状态
-(1)开启服务
-(2)关闭服务
-(3)重启服务
-(4)查看开启的服务
-(5)查看关闭的服务
-(6)安装服务或软件
-(7)卸载服务或软件
-(8)配置本地yum源
-(9)配置DHCP
-(10)配置FTP
-(11)配置HTTP
+(0)退出
+(1)查看服务状态
+(2)开启服务
+(3)关闭服务
+(4)重启服务
+(5)查看开启的服务
+(6)查看关闭的服务
+(7)安装服务或软件
+(8)卸载服务或软件
+(9)配置本地yum源
+(10)配置阿里yum源
+(11)配置DHCP
+(12)配置FTP
+(13)配置HTTP
+(14)配置SAMBA
 (20)开启SELinux
 (21)关闭SELinux
-(100)退出
     '''.strip())
-#配置网络yum源
+
 while True:
     show_select_option()
     try:
         # 选择服务，只能输入数字，输入其他字符则会提示输入的字符类型不对
         select = int(input("请选择服务选项:"))
         # 查看服务状态
-        if select == 0:
+        if select == 1:
             service = input("请输入服务名称:")
             status_service(service)
         # 开启服务
-        elif select == 1:
+        elif select == 2:
             service = input("请输入服务名称:")
             start_service(service)
             print("您已开启服务！")
         # 关闭服务
-        elif select == 2:
+        elif select == 3:
             service = input("请输入服务名称:")
             stop_service(service)
             print("您已关闭服务！")
         # 重启服务
-        elif select == 3:
+        elif select == 4:
             service = input("请输入服务名称:")
             restart_service(service)
             print("您已重启服务！")
         # 查看开启的服务
-        elif select == 4:
-            show_services(select)
-        # 查看关闭的服务
         elif select == 5:
             show_services(select)
-        # 使用yum安装服务
+        # 查看关闭的服务
         elif select == 6:
+            show_services(select)
+        # 使用yum安装服务
+        elif select == 7:
             service = input("请输入服务名称:")
             os.system("yum install %s -y" % service)
         # 使用yum卸载服务
-        elif select == 7:
+        elif select == 8:
             service = input("请输入服务名称:")
             os.system("yum remove %s -y" % service)
 
         #配置本地yum源
-        elif select == 8:
+        elif select == 9:
             local_yum()
+        #配置阿里yum源
+        elif select == 10:
+            ali_yum()
 
         #配置DHCP
-        elif select == 9:
+        elif select == 11:
             a = Configure_DHCP()
             # 如果未安装dhcpd服务，则会提示未安装信息
             if a.backup() == "系统未检测到dhcpd服务，请安装！":
@@ -124,7 +130,7 @@ while True:
                 a.build_main_file()
 
         #配置vsftpd
-        elif select == 10:
+        elif select == 12:
             a = Configure_FTP()
             if a.backup() == "系统未检测到vsftpd服务，请安装！":
                 print(a.backup())
@@ -132,7 +138,7 @@ while True:
             else:
                 a.backup()
                 while True:
-                    print("(1)配置匿名用户\n(2)配置本地用户\n(3)我全都要\n(10)返回主目录")
+                    print("(1)配置匿名用户\n(2)配置本地用户\n(3)我全都要\n(0)返回主目录")
                     select = int(input("请选择配置选项："))
                     # 配置匿名用户
                     if select == 1:
@@ -148,13 +154,13 @@ while True:
                         a.config_local_users()
                         continue
                     # 返回主目录
-                    elif select == 10:
+                    elif select == 0:
                         break
 
 
 
         # 配置HTTP
-        elif select == 11:
+        elif select == 13:
             a = Config_HTTP()
             b = Config_virtual_host()
             if a.backup() == "系统未检测到httpd服务，请安装！":
@@ -163,7 +169,7 @@ while True:
             else:
                 a.backup()
                 while True:
-                    print("(1)客户机地址限制\n(2)用户授权限制\n(3)确认用户数据文件\n(4)删除用户账号\n(5)虚拟主机（基于IP地址）\n(6)虚拟主机（基于端口）\n(10)返回主目录")
+                    print("(1)客户机地址限制\n(2)用户授权限制\n(3)确认用户数据文件\n(4)删除用户账号\n(5)虚拟主机（基于IP地址）\n(6)虚拟主机（基于端口）\n(0)返回主目录")
                     select = int(input("请选择服务选项:"))
                     #配置客户机地址限制
                     if select == 1:
@@ -217,8 +223,18 @@ while True:
                         os.system("sed -i '/httpd-vhosts/s/#//g' /etc/httpd/conf/httpd.conf")
                         continue
                     #返回主菜单
-                    elif select == 10:
+                    elif select == 0:
                         break
+
+        # 配置SAMBA
+        elif select == 14:
+            a = Configure_Samba()
+            if a.backup() == "系统未检测到smb服务，请安装！":
+                print(a.backup)
+                continue
+            else:
+                a.backup()
+                a.configure_anonymous_access()
 
 
         #开启SELinux
@@ -228,7 +244,7 @@ while True:
         elif select == 21:
             stop_SELinux()
 
-        elif select == 100:
+        elif select == 0:
             break
     except ValueError:
         print("您输入的字符类型不对，请重新输入！")
