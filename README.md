@@ -7,7 +7,7 @@
 
 ## Red Hat/CentOS
 
-### Dependencies:
+### Dependence:
 + Python version 3 or above.
 ~~~
 [root@localhost ~]# unzip service-management-and-control-main.zip
