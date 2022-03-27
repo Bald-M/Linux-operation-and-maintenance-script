@@ -4,7 +4,7 @@
 # https://github.com/Bald-M/service-management-and-control
 
 import os
-from config_yum import local_yum,ali_yum
+#from config_yum import local_yum,ali_yum
 from DHCP import *
 from FTP import *
 from HTTP import *
